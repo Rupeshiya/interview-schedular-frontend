@@ -28,7 +28,7 @@ class Dashboard extends Component {
     console.log('schedules list ', schedules);
     let schedulesList = schedules.map((schedule, index) => (
       <div class="card" key={index}>
-        <h5 class="card-header">Interview {index}</h5>
+        <h5 class="card-header">Interview {index+1}</h5>
         <div class="card-body">
           <p class="card-text">Interviewer Name: {schedule?.interviewerName}</p>
           <p class="card-text">Interviewee Name: {schedule?.intervieweeName}</p>

@@ -144,7 +144,7 @@ class Schedule extends Component {
                 />
                </div>
              </div><br/>
-               <label>Upload Your File </label>
+               <label>Upload Resume </label>
                 <input 
                   type="file" 
                   class="form-control" 
