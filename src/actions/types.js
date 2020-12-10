@@ -1,0 +1,2 @@
+export const GET_ALL_SCHEDULES = "GET_ALL_SCHEDULES";
+export const GET_RESUME_URL = "GET_RESUME_URL";
