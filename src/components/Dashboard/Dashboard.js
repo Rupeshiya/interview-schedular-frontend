@@ -39,7 +39,7 @@ class Dashboard extends Component {
             </p>
           <p class="card-text">Start time: {schedule?.start}</p>
           <p class="card-text">End time: {schedule?.end}</p>
-          <a href="#" class="btn btn-primary">Resume link</a>
+          <a href={schedule?.resume} target="_blank" class="btn btn-primary">Resume link</a>
         </div>
       </div>
     ));

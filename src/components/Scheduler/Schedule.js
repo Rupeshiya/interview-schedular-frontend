@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux';
-import { createSchedule, uploader } from '../../actions/scheduleAction'
+import { createSchedule } from '../../actions/scheduleAction'
+import axios from 'axios';
 
 class Schedule extends Component {
   constructor(props) {
@@ -13,7 +14,8 @@ class Schedule extends Component {
       date: '',
       start: '',
       end: '',
-      resume: ''
+      resume: '',
+      selectedFile: null
     }
   }
 
@@ -22,7 +24,7 @@ class Schedule extends Component {
   }
 
   scheduleClick = () => {
-    const { intervieweeName, interviewerName, intervieweeEmail, interviewerEmail, date, start, end} = this.state;
+    const { intervieweeName, interviewerName, intervieweeEmail, interviewerEmail, date, start, end, resume} = this.state;
     const scheduleInfo = {
       intervieweeName: intervieweeName,
       interviewerName: interviewerName,
@@ -30,8 +32,10 @@ class Schedule extends Component {
       interviewerEmail: interviewerEmail,
       date: date,
       start: start,
-      end: end
+      end: end,
+      resume: resume
     }
+    console.log('schedule ', scheduleInfo);
     this.props.createSchedule(scheduleInfo);
   }
 
@@ -39,9 +43,30 @@ class Schedule extends Component {
     this.setState({[e.target.name]: e.target.value})
   }
 
-  uploadSubmit = (e) => {
-    e.preventDefault();
-    this.props.uploader();
+  onChangeHandler = (event)=>{
+    let files = event.target.files
+    console.log(files[0]);
+    this.setState({
+      selectedFile: files[0]
+    })
+  }
+
+  onUploadHandler = (e) => {
+    e.preventDefault()
+    const data = new FormData()
+    data.append('upload', this.state.selectedFile)
+    axios.post("http://localhost:5000/upload", data)
+    .then(res => { 
+        console.log('upload response ', res);
+        this.setState({
+          resume: res.data.url
+        }, () => {
+          console.log('resume url ', this.state)
+        })
+    })
+    .catch((err) => {
+      console.log('error ', err);
+    })
   }
 
   render() {
@@ -119,11 +144,19 @@ class Schedule extends Component {
                 />
                </div>
              </div><br/>
-              <form action="http://localhost:5000/upload" encType="multipart/form-data" method="post">
-              <input type="text" name="title" /><br/>
-              <input type="file" name="upload" multiple="multiple" /><br/>
-              <input type="submit" value="Upload" />
-            </form>
+               <label>Upload Your File </label>
+                <input 
+                  type="file" 
+                  class="form-control" 
+                  onChange={this.onChangeHandler}
+                />
+                <button 
+                  type="button" 
+                  class="btn btn-success btn-block" 
+                  onClick={this.onUploadHandler}
+                >
+                  Upload
+                </button> 
              <button 
               type="button" 
               className="btn btn-primary btn-block" 
@@ -140,4 +173,4 @@ const mapStateToProps = (state) => ({
   schedule: state.schedule
 })
 
-export default connect(mapStateToProps, { createSchedule, uploader })(Schedule);
+export default connect(mapStateToProps, { createSchedule })(Schedule);
