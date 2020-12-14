@@ -35,7 +35,7 @@ class Dashboard extends Component {
           <p class="card-text">Interviewer Email: {schedule?.interviewerEmail}</p>
           <p class="card-text">Interviewee Email: {schedule?.intervieweeEmail}</p>
           <p class="card-text">
-            Scheduled on: <Moment format="ddd, MMM YYYY">{schedule?.date}</Moment>
+            Scheduled on: <Moment format="D MMM YYYY">{schedule?.date}</Moment>
             </p>
           <p class="card-text">Start time: {schedule?.start}</p>
           <p class="card-text">End time: {schedule?.end}</p>
